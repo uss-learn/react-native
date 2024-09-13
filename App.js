@@ -1,11 +1,11 @@
 import React from 'react'
 import {View, Text, Button, StyleSheet} from "react-native";
 
-const Person = ({name, age}) => {
+const Person = ({name, age, children}) => {
     return (
-        <View style={styles.wrapper}>
+        <View>
             <Text style={styles.textTwo}>
-                Je suis: {name} {age?`agé de ${age} ans`: ''}
+                I'am {name} {age?` | age ${age}`: ''} | {children}
             </Text>
         </View>
     );
@@ -17,10 +17,10 @@ export default function App() {
     }
     return (
         <View style={styles.wrapper}>
-            <Person name={"Manitou"}/>
-            <Person name={"Stan"}/>
-            <Person name={"Steve"}/>
-            <Person name={"Roger"} age={46}/>
+            <Person name={"Manitou"}> Alian</Person>
+            <Person name={"Stan"}> Human</Person>
+            <Person name={"Steve"}> Human</Person>
+            <Person name={"Roger"} age={46}> Human</Person>
         </View>
     )
 }
