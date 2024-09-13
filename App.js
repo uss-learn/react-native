@@ -1,15 +1,26 @@
 import React from 'react'
 import {View, Text, Button, StyleSheet} from "react-native";
 
+const Person = ({name, age}) => {
+    return (
+        <View style={styles.wrapper}>
+            <Text style={styles.textTwo}>
+                Je suis: {name} {age?`agé de ${age} ans`: ''}
+            </Text>
+        </View>
+    );
+};
+
 export default function App() {
     const getNames = (firstname, secondName, lastname) => {
         return `${firstname} ${secondName} ${lastname}`
     }
     return (
         <View style={styles.wrapper}>
-            <Text style={styles.textOne}>
-                Je m'appelle {getNames('John', 'Doe', 'De la Funté')}
-            </Text>
+            <Person name={"Manitou"}/>
+            <Person name={"Stan"}/>
+            <Person name={"Steve"}/>
+            <Person name={"Roger"} age={46}/>
         </View>
     )
 }
@@ -20,7 +31,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     viewOne: {backgroundColor: 'green'},
-    textOne: {fontFamily: 'Cochin', fontWeight: 'bold'},
+    textOne: {fontWeight: 'bold'},
     viewTwo: {backgroundColor: 'tomato'},
-    textTwo: {fontFamily: 'Cochin', fontSize: 20, fontWeight: 'bold', color: 'white'},
+    textTwo: {fontSize: 20, fontWeight: 'bold', color: 'black'},
 })
