@@ -1,25 +1,24 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Alert, Button, StyleSheet, TextInput, View} from "react-native";
 
 const AddProduct = ({addProduct}) => {
     const [product, setProduct] = useState('');
-    const handleClick = () => {
-        if (product.length > 1) {
-            addProduct(product); setProduct('')
+    const [buttonDisabled, setButtonDisabled] = useState(true);
+
+    useEffect(() => {
+        if (product?.length > 1) {
+            setButtonDisabled(false)
         } else {
-            Alert.alert('Info', 'Nombre de caractère doit être supérieur à 1', [
-                {
-                    text: 'COMPRIS',
-                    onPress: () => console.warn('Réfusé'),
-                    style: 'destructive',
-                },
-                {text: "D'ACCORD", onPress: () => console.warn('OK Pressed')},
-                {text: 'ANNULÉ', onPress: () => console.warn('OK Pressed')},
-            ],
-                {cancelable: true, onDismiss: () => console.warn('dismissed')}
-                )
+            setButtonDisabled(true)
         }
 
+    }, [product]);
+
+
+    const handleClick = () => {
+        addProduct(product);
+        setProduct('')
+        setButtonDisabled(true)
     }
     return (
         <View style={styles.inputContainer}>
