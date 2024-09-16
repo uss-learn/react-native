@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
-import {View, Text, Button, StyleSheet, TextInput, ScrollView, FlatList} from "react-native";
+import React, {useEffect, useState} from 'react'
+import {View, Text, Button, StyleSheet, TextInput, ScrollView, FlatList, RefreshControl, Alert} from "react-native";
+import Person from "./components/Person";
 
 export default function App() {
     const persons = [
@@ -63,6 +64,7 @@ export default function App() {
             "phone": "+1 (963) 521-3173",
             "address": "764 Hanson Place, Hasty, Virgin Islands, 1079"
         },
+        /*
         {
             "id": "66e52609a813113a0df11dbd",
             "index": 6,
@@ -292,32 +294,60 @@ export default function App() {
             "email": "forbesmiller@unia.com",
             "phone": "+1 (994) 463-2049",
             "address": "644 Fountain Avenue, Cawood, West Virginia, 7367"
-        }
+        }*/
     ]
 
     const [families, setFamilies] = useState(persons);
+    const [refresh, setRefresh] = useState(false);
+    const [invert, setInvert] = useState(false);
+
+    useEffect(() => {
+        onRefresh()
+    }, []);
+
+
+    const onRefresh = () => {
+        setRefresh(true)
+        setInvert(!invert)
+        Alert.alert('Info', 'La liste a été rafraîchie!', [
+            {
+                text: 'OK',
+                onPress: () => {
+                    console.warn("La liste a été rafraîchie!");
+                },
+                style: "cancel"
+            }
+        ])
+        setRefresh(false)
+    }
+
     return (
         <View style={styles.wrapper}>
-            <ScrollView style={{display: 'none'}}>
+            {/*
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refresh}
+                    />
+                }
+            >
                 {
-                    families.map((person, key) => (
-                        <View key={key} style={styles.viewList}>
-                            <Text style={styles.viewListText}><Text style={styles.viewListTextBold}>Name: </Text>{person?.name}</Text>
-                            <Text style={styles.viewListText}><Text style={styles.viewListTextBold}>Age: </Text> {person?.age}</Text>
-                        </View>
-                    ))
+                    families.map((item, key) => (<Person person={item} key={key}/>))
                 }
             </ScrollView>
+            */}
 
             <FlatList
-                data={families}
-                renderItem={({item}) => (
-                    <View style={styles.viewList}>
-                        <Text style={styles.viewListText}><Text style={styles.viewListTextBold}>Name: </Text>{item?.name}</Text>
-                        <Text style={styles.viewListText}><Text style={styles.viewListTextBold}>Age: </Text> {item?.age}</Text>
-                    </View>
-                )}
-                keyExtractor={(item, key) => key}
+                data={persons}
+                renderItem={({item}) => (<Person person={item}/>)}
+                keyExtractor={item => item.id}
+                horizontal={true}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refresh}
+                    />
+                }
+                inverted={invert}
             />
 
         </View>
@@ -326,27 +356,8 @@ export default function App() {
 
 const styles = StyleSheet.create({
     wrapper: {
-        marginTop: 20,
-        flexDirection: 'column'
-    },
-    viewOne: {backgroundColor: 'green'},
-    textOne: {fontWeight: 'bold', textAlign: 'center'},
-    viewTwo: {backgroundColor: 'tomato'},
-    textTwo: {fontSize: 20, fontWeight: 'bold', textAlign: 'center'},
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-    },
-    viewList: {
-        marginTop: 30,
-        backgroundColor: 'purple',
-    },
-    viewListText: {
-        color: 'white'
-    },
-    viewListTextBold: {
-        fontWeight: 'bold'
+        marginTop: 35,
+        flex: 1,
+        alignItems: 'stretch',
     },
 })
