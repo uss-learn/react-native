@@ -1,21 +1,24 @@
 import React, {useEffect, useState} from 'react'
-import {Alert, Modal, Pressable, StyleSheet, Text, View} from "react-native";
+import {Alert, Button, Image, ImageBackground, Modal, Pressable, StyleSheet, Text, View} from "react-native";
 import Products from "./components/Products";
 import AddProduct from "./components/AddProduct";
+import ButtonComponent from "./components/ButtonComponent";
 
 export default function App() {
     const [products, setProducts] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [displayModal, setDisplayModal] = useState(false);
 
 
     const addProduct = (product) => {
         const key =  Date.now().toString()
-
         if (product?.length > 1) {
             setProducts((currentProducts) => [{key, name: product},  ...currentProducts])
         } else {
             setShowModal(true)
         }
+
+        setDisplayModal(false)
     }
 
     const deleteProduct = (product) => {
@@ -24,9 +27,28 @@ export default function App() {
         })
     }
 
+    const cancelProductForm = () => {
+        setDisplayModal(false)
+    }
+
     return (
-        <View style={styles.container}>
-            <AddProduct addProduct={addProduct}/>
+        <ImageBackground
+            style={styles.container}
+            source={{
+                uri: 'https://cdn.pixabay.com/photo/2017/07/12/09/54/line-2496359_1280.png'
+            }}
+        >
+
+            <ButtonComponent
+                style={styles.btnBlue}
+                btnTitle={"Nouveau produit"}
+                onPressHandler={ () => {
+                    setDisplayModal(true)
+                } }
+            />
+
+            <AddProduct displayModal={displayModal} addProduct={addProduct} cancelProductForm={cancelProductForm}/>
+
             <Modal
                 visible={showModal}
                 onRequestClose={() => {
@@ -43,6 +65,12 @@ export default function App() {
                             </Text>
                         </View>
                         <View style={styles.modalBody}>
+                            <Image
+                                source={{
+                                    uri: 'https://cdn.pixabay.com/photo/2013/07/12/12/40/abort-146072_1280.png'
+                                }}
+                                style={styles.redCheck128}
+                            />
                             <Text style={styles.modalBodyText}>
                                 Merci d'indiquer plus d'un caractère
                             </Text>
@@ -61,7 +89,7 @@ export default function App() {
                 </View>
             </Modal>
             <Products products={products} deleteProduct={deleteProduct}/>
-        </View>
+        </ImageBackground>
     )
 }
 
@@ -69,6 +97,7 @@ const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 2,
         paddingVertical: 60,
+        flex: 1,
     },
     productItems: {
         marginTop: 10,
@@ -89,7 +118,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         width: '90%',
-        height: 250,
+        height: 300,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         borderBottomLeftRadius: 15,
@@ -144,4 +173,17 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 15,
 
     },
+    redCheck128: {
+        width: 100,
+        height: 100,
+    },
+    btnBlue: {
+        width: '100%',
+        backgroundColor: 'darkred',
+        borderRadius: 30,
+        paddingVertical: 20,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: 'white'
+    }
 })
