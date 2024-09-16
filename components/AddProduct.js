@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import {Alert, Button, Modal, StyleSheet, TextInput, View} from "react-native";
+import {Modal, StyleSheet, TextInput, View} from "react-native";
 import ButtonComponent from "./ButtonComponent";
+import Input from "./Input";
 
 const AddProduct = ({addProduct, displayModal, cancelProductForm}) => {
     const [product, setProduct] = useState('');
@@ -21,17 +22,23 @@ const AddProduct = ({addProduct, displayModal, cancelProductForm}) => {
         setProduct('')
         setButtonDisabled(true)
     }
+    const inputHandler = (value)=> {
+        const regex = /[^a-z]/gi
+        setProduct(value.replace(regex, ''))
+        setProduct(value)
+    };
     return (
         <Modal
             visible={displayModal}
             animationType={'slide'}
         >
             <View style={styles.inputContainer}>
-                <TextInput
-                    style={styles.textInput}
+                <Input
                     placeholder={'Nouveau produit'}
-                    onChangeText={(value)=>setProduct(value)}
+                    style={styles.textInput}
+                    onChangeText={inputHandler}
                     value={product}
+                    keyboardType="phone-pad"
                 />
                 <View style={styles.btnContainer}>
                     <View style={styles.btnBlue}>
@@ -68,7 +75,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingLeft: 9,
         fontSize: 18,
-        width: '100%'
+        width: '100%',
+        textAlign: 'center'
     },
     productItem: {
         backgroundColor: '#ffb6c1',

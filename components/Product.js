@@ -1,40 +1,42 @@
-import React, {useState} from 'react'
-import {
-    Button,
-    FlatList, Pressable,
-    StyleSheet,
-    Text,
-    TextInput, TouchableHighlight,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View
-} from "react-native";
+import React from 'react'
+import {Pressable, StyleSheet, Text, View} from "react-native";
+import {FontAwesome} from '@expo/vector-icons';
+import Colors from "../constants/colors";
 
 const Product = ({product, deleteProduct}) => {
     return (
-        <Pressable
-            onPress={() => {
-                deleteProduct(product)
-            }}
-            activeOpacity={0.4}
-        >
-            <View style={styles.productItems}>
-                <Text style={styles.productItem}> {product.name} </Text>
-            </View>
-        </Pressable>
+        <View style={styles.productItems}>
+                <Pressable
+
+                    onPress={() => {
+                        deleteProduct(product)
+                    }}
+                    activeOpacity={0.4}
+                >
+                    <Text>
+                    <FontAwesome name="remove" size={24} color="white" />
+                    </Text>
+                </Pressable>
+            <Text style={styles.productItem}> {product.name} </Text>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     productItems: {
+        flexDirection: 'row',
+        alignItems: 'center',
         marginTop: 10,
+        borderRadius: 10,
+        padding: 15,
+        backgroundColor: Colors.info,
     },
 
     productItem: {
-        backgroundColor: '#ffb6c1',
-        padding: 20,
         fontSize: 17,
+        padding: 10,
         marginVertical: 6,
+        color: Colors.white,
     }
 })
 

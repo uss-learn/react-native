@@ -1,10 +1,49 @@
-import React, {useEffect, useState} from 'react'
-import {Alert, Button, Image, ImageBackground, Modal, Pressable, StyleSheet, Text, View} from "react-native";
+import React, {useCallback, useState} from 'react'
+import {Image, ImageBackground, Modal, Pressable, StyleSheet, Text, View} from "react-native";
 import Products from "./components/Products";
 import AddProduct from "./components/AddProduct";
 import ButtonComponent from "./components/ButtonComponent";
+import Header from "./components/Header";
+import Colors from './constants/colors'
+import AppLoading from 'expo-app-loading';
+//import * as Font from 'expo-font'
+
+import {
+    useFonts,
+    Inter_100Thin,
+    Inter_200ExtraLight,
+    Inter_300Light,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    Inter_900Black,
+} from '@expo-google-fonts/inter';
+import { JacquesFrancois_400Regular } from '@expo-google-fonts/jacques-francois';
+import {
+    JacquesFrancoisShadow_400Regular,
+} from '@expo-google-fonts/jacques-francois-shadow';
+
+
+
+
 
 export default function App() {
+    let [fontsLoaded, error] = useFonts({
+        Inter_100Thin,
+        Inter_200ExtraLight,
+        Inter_300Light,
+        Inter_400Regular,
+        Inter_500Medium,
+        Inter_600SemiBold,
+        Inter_700Bold,
+        Inter_800ExtraBold,
+        Inter_900Black,
+        JacquesFrancois_400Regular,
+        JacquesFrancoisShadow_400Regular,
+    });
+
     const [products, setProducts] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [displayModal, setDisplayModal] = useState(false);
@@ -30,66 +69,71 @@ export default function App() {
     const cancelProductForm = () => {
         setDisplayModal(false)
     }
+    if (!fontsLoaded) {
+        return null;
+    }
 
     return (
-        <ImageBackground
-            style={styles.container}
-            source={{
-                uri: 'https://cdn.pixabay.com/photo/2017/07/12/09/54/line-2496359_1280.png'
-            }}
-        >
-
-            <ButtonComponent
-                style={styles.btnBlue}
-                btnTitle={"Nouveau produit"}
-                onPressHandler={ () => {
-                    setDisplayModal(true)
-                } }
-            />
-
-            <AddProduct displayModal={displayModal} addProduct={addProduct} cancelProductForm={cancelProductForm}/>
-
-            <Modal
-                visible={showModal}
-                onRequestClose={() => {
-                    setShowModal(false)
+            <ImageBackground
+                style={styles.bgImage}
+                source={{
+                    uri: 'https://cdn.pixabay.com/photo/2017/07/12/09/54/line-2496359_1280.png'
                 }}
-                animationType={'slide'}
-                transparent={true}
             >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <View style={styles.modalHeader}>
-                            <Text style={styles.modalHeaderText}>
-                                OOPS!
-                            </Text>
+                <Header/>
+                <View style={styles.container}>
+                    <ButtonComponent
+                        style={styles.btnBlue}
+                        btnTitle={"Nouveau produit"}
+                        onPressHandler={ () => {
+                            setDisplayModal(true)
+                        } }
+                    />
+
+                    <AddProduct displayModal={displayModal} addProduct={addProduct} cancelProductForm={cancelProductForm}/>
+
+                    <Modal
+                        visible={showModal}
+                        onRequestClose={() => {
+                            setShowModal(false)
+                        }}
+                        animationType={'slide'}
+                        transparent={true}
+                    >
+                        <View style={styles.modalContainer}>
+                            <View style={styles.modalContent}>
+                                <View style={styles.modalHeader}>
+                                    <Text style={styles.modalHeaderText}>
+                                        OOPS!
+                                    </Text>
+                                </View>
+                                <View style={styles.modalBody}>
+                                    <Image
+                                        source={{
+                                            uri: 'https://cdn.pixabay.com/photo/2013/07/12/12/40/abort-146072_1280.png'
+                                        }}
+                                        style={styles.redCheck128}
+                                    />
+                                    <Text style={styles.modalBodyText}>
+                                        Merci d'indiquer plus d'un caractère
+                                    </Text>
+                                </View>
+                                <View style={styles.modalFooter}>
+                                    <Pressable
+                                        style={styles.pressableModalBtnModal}
+                                        onPress={() => setShowModal(false)}
+                                    >
+                                        <Text style={styles.modalFooterText}>
+                                            OK
+                                        </Text>
+                                    </Pressable>
+                                </View>
+                            </View>
                         </View>
-                        <View style={styles.modalBody}>
-                            <Image
-                                source={{
-                                    uri: 'https://cdn.pixabay.com/photo/2013/07/12/12/40/abort-146072_1280.png'
-                                }}
-                                style={styles.redCheck128}
-                            />
-                            <Text style={styles.modalBodyText}>
-                                Merci d'indiquer plus d'un caractère
-                            </Text>
-                        </View>
-                        <View style={styles.modalFooter}>
-                            <Pressable
-                                style={styles.pressableModalBtnModal}
-                                onPress={() => setShowModal(false)}
-                            >
-                                <Text style={styles.modalFooterText}>
-                                    OK
-                                </Text>
-                            </Pressable>
-                        </View>
-                    </View>
+                    </Modal>
+                    <Products products={products} deleteProduct={deleteProduct}/>
                 </View>
-            </Modal>
-            <Products products={products} deleteProduct={deleteProduct}/>
-        </ImageBackground>
+            </ImageBackground>
     )
 }
 
@@ -164,9 +208,9 @@ const styles = StyleSheet.create({
     },
     pressableModalBtnModal: {
         width: '100%',
-        backgroundColor: 'lightseagreen',
+        backgroundColor: Colors.info,
         borderTopWidth: 1,
-        borderTopColor: 'lightgray',
+        borderTopColor: Colors.secondary,
         paddingVertical: 16,
         alignItems: 'center',
         borderBottomLeftRadius: 15,
@@ -179,11 +223,14 @@ const styles = StyleSheet.create({
     },
     btnBlue: {
         width: '100%',
-        backgroundColor: 'darkred',
+        backgroundColor: Colors.danger,
         borderRadius: 30,
         paddingVertical: 20,
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: 'white'
+        borderColor: Colors.white
+    },
+    bgImage: {
+        flex: 1,
     }
 })
