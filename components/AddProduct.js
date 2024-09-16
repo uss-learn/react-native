@@ -27,6 +27,10 @@ const AddProduct = ({addProduct}) => {
                 placeholder={'Nouveau produit'}
                 onChangeText={(value)=>setProduct(value)}
                 value={product}
+                secureTextEntry={false}
+                maxLength={2000}
+                readOnly={false}
+                rows={10}
             />
 
             <Button
@@ -39,7 +43,7 @@ const AddProduct = ({addProduct}) => {
 
 const styles = StyleSheet.create({
     inputContainer: {
-        flexDirection: 'row'
+        alignContent: 'top',
 
     },
     textInput: {
@@ -48,7 +52,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingLeft: 9,
         fontSize: 18,
-        flexGrow: 1
+        flexGrow: 1,
+        marginBottom: 10,
+        minHeight: 300,
     },
     productItem: {
         backgroundColor: '#ffb6c1',

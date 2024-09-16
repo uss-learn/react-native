@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {Alert, Modal, Pressable, StyleSheet, Text, View} from "react-native";
 import Products from "./components/Products";
 import AddProduct from "./components/AddProduct";
+import DismissKeyboard from "./components/DiismissKeyboard";
 
 export default function App() {
     const [products, setProducts] = useState([]);
@@ -25,43 +26,45 @@ export default function App() {
     }
 
     return (
-        <View style={styles.container}>
-            <AddProduct addProduct={addProduct}/>
-            <Modal
-                visible={showModal}
-                onRequestClose={() => {
-                    setShowModal(false)
-                }}
-                animationType={'slide'}
-                transparent={true}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <View style={styles.modalHeader}>
-                            <Text style={styles.modalHeaderText}>
-                                OOPS!
-                            </Text>
-                        </View>
-                        <View style={styles.modalBody}>
-                            <Text style={styles.modalBodyText}>
-                                Merci d'indiquer plus d'un caractère
-                            </Text>
-                        </View>
-                        <View style={styles.modalFooter}>
-                            <Pressable
-                                style={styles.pressableModalBtnModal}
-                                onPress={() => setShowModal(false)}
-                            >
-                                <Text style={styles.modalFooterText}>
-                                    OK
+        <DismissKeyboard>
+            <View style={styles.container}>
+                <AddProduct addProduct={addProduct}/>
+                <Modal
+                    visible={showModal}
+                    onRequestClose={() => {
+                        setShowModal(false)
+                    }}
+                    animationType={'slide'}
+                    transparent={true}
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <View style={styles.modalHeader}>
+                                <Text style={styles.modalHeaderText}>
+                                    OOPS!
                                 </Text>
-                            </Pressable>
+                            </View>
+                            <View style={styles.modalBody}>
+                                <Text style={styles.modalBodyText}>
+                                    Merci d'indiquer plus d'un caractère
+                                </Text>
+                            </View>
+                            <View style={styles.modalFooter}>
+                                <Pressable
+                                    style={styles.pressableModalBtnModal}
+                                    onPress={() => setShowModal(false)}
+                                >
+                                    <Text style={styles.modalFooterText}>
+                                        OK
+                                    </Text>
+                                </Pressable>
+                            </View>
                         </View>
                     </View>
-                </View>
-            </Modal>
-            <Products products={products} deleteProduct={deleteProduct}/>
-        </View>
+                </Modal>
+                <Products products={products} deleteProduct={deleteProduct}/>
+            </View>
+        </DismissKeyboard>
     )
 }
 
@@ -69,6 +72,7 @@ const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 2,
         paddingVertical: 60,
+        flexGrow: 1,
     },
     productItems: {
         marginTop: 10,
