@@ -6,23 +6,25 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "react-devtools": "react-devtools"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
     "@expo-google-fonts/jacques-francois": "^0.2.3",
     "@expo-google-fonts/jacques-francois-shadow": "^0.2.3",
+    "@expo/vector-icons": "^14.0.2",
     "expo": "~51.0.28",
     "expo-app-loading": "^2.1.1",
     "expo-font": "~12.0.10",
     "expo-splash-screen": "^0.27.5",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
-    "react-native": "0.74.5",
-    "@expo/vector-icons": "^14.0.2"
+    "react-native": "0.74.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "react-devtools": "^5.3.1"
   },
   "private": true
 }

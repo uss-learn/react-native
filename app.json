@@ -18,10 +18,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.elyoussif.monprojet"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d2636b99-1a0f-4117-a172-6625bcbdb143"
+      }
     }
   }
 }
