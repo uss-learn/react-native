@@ -16,16 +16,10 @@ const HomeStackScreen = ({navigation}) => {
         <HomeStack.Navigator
             screenOptions={{
                 header: () => null,
-                /*headerLeft: () => (
-                    <MaterialIcons
-                        name="menu" size={24} color="black"
-                        onPress={() => navigation.toggleDrawer()}
-                    />
-                )*/
             }}
         >
             <HomeStack.Screen
-                name={'Home'} component={Home}
+                name={'Homer'} component={Home}
                 options={{
                     title: "Accueil"
                 }}
