@@ -1,65 +1,27 @@
-import {View, Easing} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator,  } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
 import Home from "./screens/Home";
 import Portfolio from "./screens/Portfolio";
-import { CardStyleInterpolators } from '@react-navigation/stack';
-
-
-const Stack = createNativeStackNavigator();
+import Drawer from "./routes/Drawer";
+import HomeStackNavScreen from "./routes/HomeStackNav";
+import PortfolioStackScreen from "./routes/PortfolioStackNav";
+import {MaterialIcons} from "@expo/vector-icons";
+import CustomerDrawerContent from "./components/CustomDrawerContent";
 
 export default function App() {
-    const openConfig = {
-        animation: 'bounce',
-        config: {
-            stiffness: 1000,
-            damping: 500,
-            mass: 35,
-            overshootClamping: true,
-            restDisplacementThreshold: 0.01,
-            restSpeedThreshold: 0.01,
-        },
-    };
-
-    const closeConfig = {
-        animation: 'timing',
-        config: {
-            duration: 10000,
-            easing: Easing.ease,
-        },
-    };
   return (
       <NavigationContainer>
-          <Stack.Navigator
-
-              screenOptions={{
-                  //header: () => {} initialRouteName={'Portfolio'}
-                  headerStyle: {
-                      backgroundColor: 'slateblue',
-                  },
-                  headerTintColor: 'white',
-                  headerTitleStyle: {
-                      fontWeight: 'bold',
-                      textTransform: 'lowercase'
-                  },
-                  transitionSpec: {
-                      open: openConfig,
-                      close: closeConfig,
-                  },
-                  cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid
-              }}
+          <Drawer.Navigator
+              drawerContent={(props) => <CustomerDrawerContent {...props} />}
           >
-              <Stack.Screen name={'Home'} component={Home} options={{
-                  title: 'Accueil'
-              }}/>
-              <Stack.Screen name={'Portfolio'} component={Portfolio}
-                options={{
-                    //header: () => {},
-                    //gestureEnabled: true,
-                    //gestureDirection: 'horizontal-invert',
-                }}
+              <Drawer.Screen
+                  name={'Home'}
+                  component={HomeStackNavScreen}
+                  options={{
+                      title: "Accueil",
+                      drawerIcon: () => (<MaterialIcons name="home" size={24} color="white"/>)
+                  }}
               />
-          </Stack.Navigator>
+          </Drawer.Navigator>
       </NavigationContainer>
   );
 }

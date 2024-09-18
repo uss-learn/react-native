@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const Portfolio = () => {
+const Sujets = () => {
     return (
         <View style={styles.container}>
-            <Text>Portfolio </Text>
+            <Text>Sujets </Text>
         </View>
     );
 }
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Portfolio;
+export default Sujets;
