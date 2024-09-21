@@ -1,7 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native';
-import Home from "./screens/Home";
 import Drawer from "./routes/Drawer";
-import HomeStackNavScreen from "./routes/HomeStackNav";
 import {MaterialIcons} from "@expo/vector-icons";
 import CustomerDrawerContent from "./components/CustomDrawerContent";
 import BottomTabNav from "./routes/BottomTabNav";
